@@ -16,7 +16,7 @@ U4 requires independent domain data, mock APIs, and the ability for one remote t
 | Operations | `useOperationsStore` | services, incidents, filters, Operations loading/error |
 | FinOps | `useFinOpsStore` | cost summary, breakdown, FinOps loading/error |
 
-Environment **copies** exist in Operations and FinOps stores; they are updated by the `cloudops` event (ADR-003), not by importing `useShellStore`.
+Environment **copies** exist in Operations and FinOps stores; they are updated by the `cloudops` event (`CLOUDOPS_EVENT`, ADR-003), not by importing `useShellStore`.
 
 Incident acknowledge/resolve update Operations store state and the Operations mock module memory. FinOps does not see incidents.
 

@@ -6,9 +6,9 @@ The environment selector lives in the shell header. Operations and FinOps must r
 
 Requirements from the implementation:
 
-- Named event **`cloudops`**
-- Payload `{ environment }`
-- Initial value available if a remote mounts after the first publish
+- Event **`cloudops`** (`CLOUDOPS_EVENT`)
+- Payload `{ environment: "DEV" | "QA" | "PROD" }`
+- Initial value available if a remote mounts after the first publish (`window.__CLOUDOPS_ENVIRONMENT__`)
 - Listeners must be removable (no duplicate handlers when several Operations views mount)
 
 ## Decision
@@ -37,5 +37,4 @@ Remotes: `cloudOpsSync.ts` ref-counts subscribers so Services + Incidents + Summ
 - Contract changes (event name or payload) break synchronization until both sides rebuild; there is no schema registry.
 - Remotes running **standalone** call `publishCloudOpsEnvironment("PROD")` in `main.tsx`; they do not read the shell selector.
 - Duplicate listeners are a real bug class; tests cover ref-counting and unsubscribe.
-- `packages/contracts/src/mfe.ts` still contains unused placeholder interfaces; they are not the communication mechanism.
 - No cross-origin bus: if remotes were iframed on another origin, this contract would not apply.

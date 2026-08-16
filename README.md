@@ -14,7 +14,7 @@ This repository is an **npm workspaces** monorepo. There is no Nx, Turborepo, Do
 
 Shared libraries in the same repo:
 
-- `@cloudops/contracts` — `Environment`, event `cloudops`, snapshot `window.__CLOUDOPS_ENVIRONMENT__`
+- `@cloudops/contracts` — `Environment`, event `cloudops` (`CLOUDOPS_EVENT`), payload `{ environment }`, snapshot `window.__CLOUDOPS_ENVIRONMENT__`
 - `@cloudops/design-system` — `MetricCard`, `StatusBadge`, `LoadingState`, `ErrorState`, `EmptyState`, `DomainIndicator`, CSS tokens
 
 Data comes from **in-memory mock APIs** inside each MFE (`mockOperationsApi`, `mockFinOpsApi`). There is no backend.
@@ -107,9 +107,7 @@ Three independent Zustand stores. No store is listed in Federation `shared`. She
 
 ### Cross-MFE Communication
 
-The only runtime bus is a **window** `CustomEvent` named `"cloudops"` (`CLOUDOPS_EVENT`), payload `{ environment: "DEV" | "QA" | "PROD" }`. Helpers live in `packages/contracts/src/events.ts`.
-
-`packages/contracts/src/mfe.ts` still exports unused placeholder types (`MicrofrontendMountProps`, `InterMicrofrontendContract`). Federated pages do **not** receive `environment` as props; they sync via the event and snapshot.
+The only runtime bus is a **window** `CustomEvent` named `cloudops` (`CLOUDOPS_EVENT`) with payload `{ environment: "DEV" | "QA" | "PROD" }`. Helpers live in `packages/contracts/src/events.ts`. Federated pages do **not** receive `environment` as props; they sync via the event and snapshot.
 
 ### Environment Event
 
@@ -255,7 +253,7 @@ Workspace package `@cloudops/design-system`. Apps alias it to source in Vite. Co
 | --- | --- |
 | [ADR-001](docs/adr/ADR-001-client-side-composition.md) | Compose remotes in the browser with Module Federation |
 | [ADR-002](docs/adr/ADR-002-domain-boundaries.md) | Shell / Operations / FinOps as separate apps |
-| [ADR-003](docs/adr/ADR-003-cross-mfe-communication.md) | `cloudops` CustomEvent + window snapshot |
+| [ADR-003](docs/adr/ADR-003-cross-mfe-communication.md) | Event `cloudops` (`CLOUDOPS_EVENT`) + `window.__CLOUDOPS_ENVIRONMENT__` |
 | [ADR-004](docs/adr/ADR-004-state-ownership.md) | One Zustand store per app; do not share Zustand |
 
 ## Trade-offs
@@ -278,7 +276,6 @@ Documented in depth in [docs/architecture.md](docs/architecture.md#trade-offs):
 - No independent git repos, pipelines, or deployments (see deployment concept in architecture.md).
 - Event bus is same-window only; it does not cross origins.
 - Types for `operations/*` / `finops/*` are shims, not generated federated types.
-- `InterMicrofrontendContract` in contracts is unused at runtime.
 - Standalone MFE routers are separate from the shell router.
 - No authentication, no real APIs, no cloud infrastructure.
 

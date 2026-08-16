@@ -1,5 +1,9 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import { getSharedEnvironment, publishCloudOpsEnvironment } from "@cloudops/contracts";
+import {
+  CLOUDOPS_EVENT,
+  getSharedEnvironment,
+  publishCloudOpsEnvironment,
+} from "@cloudops/contracts";
 import useFinOpsStore from "../store/useFinOpsStore";
 import { resetFinOpsCloudOpsSyncForTests, startFinOpsCloudOpsSync } from "../store/cloudOpsSync";
 import * as api from "../services/mockFinOpsApi";
@@ -21,6 +25,10 @@ afterEach(() => {
 });
 
 describe("FinOps CloudOps listener", () => {
+  it("uses the cloudops event name", () => {
+    expect(CLOUDOPS_EVENT).toBe("cloudops");
+  });
+
   it("bootstraps from the shared environment and reloads costs on DEV → PROD", async () => {
     publishCloudOpsEnvironment("DEV");
     expect(getSharedEnvironment()).toBe("DEV");
