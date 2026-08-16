@@ -1,0 +1,29 @@
+{
+  "name": "cloudops-control-microfrontends",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "echo \"Module Federation requires build + preview. Use: npm start\"",
+    "build": "npm run build:operations && npm run build:finops && npm run build:shell",
+    "build:shell": "npm run build -w @cloudops/shell",
+    "build:operations": "npm run build -w @cloudops/operations-mfe",
+    "build:finops": "npm run build -w @cloudops/finops-mfe",
+    "preview:shell": "npm run preview -w @cloudops/shell",
+    "preview:operations": "npm run preview -w @cloudops/operations-mfe",
+    "preview:finops": "npm run preview -w @cloudops/finops-mfe",
+    "start": "npm run build && concurrently -k -n operations,finops,shell -c blue,green,magenta \"npm run preview:operations\" \"npm run preview:finops\" \"npm run preview:shell\"",
+    "test": "npm run test -w @cloudops/operations-mfe && npm run test -w @cloudops/finops-mfe && npm run test -w @cloudops/shell",
+    "lint": "oxlint"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.3",
+    "concurrently": "^9.2.1",
+    "oxlint": "^1.75.0",
+    "typescript": "~6.0.2"
+  }
+}

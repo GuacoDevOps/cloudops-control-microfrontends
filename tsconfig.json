@@ -1,0 +1,10 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./apps/shell" },
+    { "path": "./apps/operations-mfe" },
+    { "path": "./apps/finops-mfe" },
+    { "path": "./packages/design-system" },
+    { "path": "./packages/contracts" }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "@cloudops/design-system",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles/tokens.css": "./src/styles/tokens.css",
+    "./styles/global.css": "./src/styles/global.css"
+  },
+  "peerDependencies": {
+    "lucide-react": "^1.30.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "dependencies": {
+    "@cloudops/contracts": "0.1.0"
+  }
+}

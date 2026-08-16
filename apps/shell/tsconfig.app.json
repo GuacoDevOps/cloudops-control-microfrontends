@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "types": ["vite/client", "vitest/globals"],
+    "ignoreDeprecations": "6.0",
+    "baseUrl": ".",
+    "paths": {
+      "operations/ServicesPage": ["./src/federation-shims/operations-ServicesPage.d.ts"],
+      "operations/IncidentsPage": ["./src/federation-shims/operations-IncidentsPage.d.ts"],
+      "operations/OperationsSummary": ["./src/federation-shims/operations-OperationsSummary.d.ts"],
+      "finops/CostsPage": ["./src/federation-shims/finops-CostsPage.d.ts"],
+      "finops/FinOpsSummary": ["./src/federation-shims/finops-FinOpsSummary.d.ts"]
+    }
+  },
+  "include": ["src"]
+}

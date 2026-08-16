@@ -1,0 +1,65 @@
+.header {
+  height: var(--header-height);
+  background: var(--surface-primary);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-8);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  box-shadow: var(--shadow-sm);
+}
+
+.title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.envSelector {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.envLabel {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.envSelect {
+  min-height: 34px;
+  min-width: 90px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-primary);
+  border-color: var(--color-primary-subtle);
+  background-color: var(--color-primary-subtle);
+  border-radius: var(--radius-md);
+}
+
+.envSelect:hover {
+  border-color: var(--color-primary);
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 0 var(--space-4);
+    gap: var(--space-3);
+    height: auto;
+    min-height: var(--header-height);
+    flex-wrap: wrap;
+    padding-top: var(--space-3);
+    padding-bottom: var(--space-3);
+  }
+
+  .title {
+    font-size: 13px;
+  }
+}

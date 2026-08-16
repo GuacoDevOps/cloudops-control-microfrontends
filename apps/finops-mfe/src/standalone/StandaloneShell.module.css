@@ -1,0 +1,51 @@
+.shell {
+  min-height: 100vh;
+}
+
+.header {
+  height: var(--header-height);
+  background: var(--surface-primary);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-8);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.envSelector {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.envLabel {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.envSelect {
+  min-height: 34px;
+  min-width: 90px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-primary);
+  border-color: var(--color-primary-subtle);
+  background-color: var(--color-primary-subtle);
+}
+
+.main {
+  padding: var(--space-8);
+  max-width: 1400px;
+}
