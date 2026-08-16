@@ -1,7 +1,8 @@
 import type { Environment } from "./environment";
 import { ENVIRONMENTS } from "./environment";
 
-export const CLOUDOPS_EVENT = "cloudops";
+/** Window `CustomEvent` type for environment changes. Value is versioned only by rebuilding consumers together. */
+export const CLOUDOPS_EVENT = "cloudops:environment-changed";
 export const CLOUDOPS_ENVIRONMENT_KEY = "__CLOUDOPS_ENVIRONMENT__";
 
 export interface CloudOpsEventPayload {

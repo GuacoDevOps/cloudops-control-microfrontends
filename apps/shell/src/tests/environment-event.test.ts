@@ -8,7 +8,8 @@ beforeEach(() => {
 });
 
 describe("Shell environment event", () => {
-  it("publishes the cloudops event when the selector changes environment", () => {
+  it("publishes cloudops:environment-changed when the selector changes environment", () => {
+    expect(CLOUDOPS_EVENT).toBe("cloudops:environment-changed");
     const received: string[] = [];
     const handler = (event: Event) => {
       const detail = (event as CustomEvent<{ environment: string }>).detail;

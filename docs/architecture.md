@@ -32,7 +32,7 @@ Browser (localhost)
   Operations :5001  →  /assets/remoteEntry.js
   FinOps     :5002  →  /assets/remoteEntry.js
 
-window CustomEvent "cloudops"  { environment }
+window CustomEvent cloudops:environment-changed  { environment: "DEV" | "QA" | "PROD" }
 window.__CLOUDOPS_ENVIRONMENT__
 ```
 
@@ -106,7 +106,7 @@ Contract: `packages/contracts/src/events.ts`.
 
 | Piece | Value |
 | --- | --- |
-| Event name | `"cloudops"` (`CLOUDOPS_EVENT`) |
+| Event | `cloudops:environment-changed` (`CLOUDOPS_EVENT`) |
 | Payload | `{ environment: "DEV" \| "QA" \| "PROD" }` |
 | Snapshot key | `window.__CLOUDOPS_ENVIRONMENT__` (`CLOUDOPS_ENVIRONMENT_KEY`) |
 | Publish | `publishCloudOpsEnvironment` |
@@ -121,8 +121,6 @@ Flow:
 4. `useOperationsCloudOpsSync` / `useFinOpsCloudOpsSync` (ref-counted) apply environment and load data.
 
 Invalid payloads are ignored (`isCloudOpsEventPayload`).
-
-Leftover types in `packages/contracts/src/mfe.ts` (`MicrofrontendMountProps`, `InterMicrofrontendContract`) are **not** used as the runtime contract.
 
 ## Failure isolation
 
@@ -187,7 +185,7 @@ Three TypeScript projects, three Vite builds, federation plugin quirks (Vite 8 C
 
 ### Dependencia de contratos
 
-If `CLOUDOPS_EVENT` or the payload shape diverges, remotes silently miss updates (`isCloudOpsEventPayload` returns false). Environment lists must stay aligned with `ENVIRONMENTS`. The unused `mfe.ts` types can confuse readers; the live contract is `events.ts`.
+If `CLOUDOPS_EVENT` (`cloudops:environment-changed`) or the payload shape diverges, remotes silently miss updates (`isCloudOpsEventPayload` returns false). Environment lists must stay aligned with `ENVIRONMENTS`. The live contract is `packages/contracts/src/events.ts`.
 
 ### Posible duplicación de librerías
 

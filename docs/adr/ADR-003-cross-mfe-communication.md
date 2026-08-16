@@ -6,21 +6,24 @@ The environment selector lives in the shell header. Operations and FinOps must r
 
 Requirements from the implementation:
 
-- Named event **`cloudops`**
-- Payload `{ environment }`
-- Initial value available if a remote mounts after the first publish
+- Event **`cloudops:environment-changed`** (`CLOUDOPS_EVENT`)
+- Payload `{ environment: "DEV" | "QA" | "PROD" }`
+- Initial value available if a remote mounts after the first publish (`window.__CLOUDOPS_ENVIRONMENT__`)
 - Listeners must be removable (no duplicate handlers when several Operations views mount)
 
 ## Decision
 
 Use a **same-window** contract in `@cloudops/contracts`:
 
-- `publishCloudOpsEnvironment(environment)` writes `window.__CLOUDOPS_ENVIRONMENT__` and dispatches `new CustomEvent("cloudops", { detail: { environment } })`.
+- Event: `cloudops:environment-changed`
+- Payload: `{ environment: "DEV" | "QA" | "PROD" }`
+- Shell publishes the event (`useShellStore.setEnvironment`; `App` publishes on mount).
+- Operations subscribes (`cloudOpsSync.ts`).
+- FinOps subscribes (`cloudOpsSync.ts`).
+- `publishCloudOpsEnvironment(environment)` writes `window.__CLOUDOPS_ENVIRONMENT__` and dispatches `new CustomEvent("cloudops:environment-changed", { detail: { environment } })`.
 - `subscribeCloudOpsEnvironment(listener)` adds `window.addEventListener` and returns a function that calls `removeEventListener`.
 - `getSharedEnvironment()` reads the snapshot, defaulting to `"PROD"`.
 - Payload validation: `isCloudOpsEventPayload`.
-
-Shell: `useShellStore.setEnvironment` publishes; `App` publishes on mount.
 
 Remotes: `cloudOpsSync.ts` ref-counts subscribers so Services + Incidents + Summary share **one** listener; cleanup runs when the count reaches zero. On bootstrap, remotes apply `getSharedEnvironment()` and load data.
 
@@ -37,5 +40,4 @@ Remotes: `cloudOpsSync.ts` ref-counts subscribers so Services + Incidents + Summ
 - Contract changes (event name or payload) break synchronization until both sides rebuild; there is no schema registry.
 - Remotes running **standalone** call `publishCloudOpsEnvironment("PROD")` in `main.tsx`; they do not read the shell selector.
 - Duplicate listeners are a real bug class; tests cover ref-counting and unsubscribe.
-- `packages/contracts/src/mfe.ts` still contains unused placeholder interfaces; they are not the communication mechanism.
 - No cross-origin bus: if remotes were iframed on another origin, this contract would not apply.

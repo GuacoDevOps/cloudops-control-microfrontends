@@ -36,8 +36,8 @@ afterEach(() => {
 });
 
 describe("CloudOps event contract", () => {
-  it("uses the cloudops event name and environment payload", () => {
-    expect(CLOUDOPS_EVENT).toBe("cloudops");
+  it("uses the cloudops:environment-changed event name and environment payload", () => {
+    expect(CLOUDOPS_EVENT).toBe("cloudops:environment-changed");
     expect(isCloudOpsEventPayload({ environment: "DEV" })).toBe(true);
     expect(isCloudOpsEventPayload({ environment: "QA" })).toBe(true);
     expect(isCloudOpsEventPayload({ environment: "PROD" })).toBe(true);

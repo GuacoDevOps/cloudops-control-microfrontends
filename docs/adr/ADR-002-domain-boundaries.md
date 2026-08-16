@@ -18,7 +18,7 @@ Split the frontend into three applications aligned with domains:
 
 Cross-cutting code that is not a domain:
 
-- `@cloudops/contracts` — `Environment`, `cloudops` event, `ServiceStatus`
+- `@cloudops/contracts` — `Environment`, event `cloudops:environment-changed` (`CLOUDOPS_EVENT`), `ServiceStatus`
 - `@cloudops/design-system` — shared presentational components and CSS tokens
 
 Federated **exposes** match domain UI, not a generic widget dump. Dashboard pulls **summaries** from both remotes instead of reimplementing metrics in the shell.
