@@ -32,7 +32,7 @@ Browser (localhost)
   Operations :5001  →  /assets/remoteEntry.js
   FinOps     :5002  →  /assets/remoteEntry.js
 
-window CustomEvent cloudops  { environment: "DEV" | "QA" | "PROD" }
+window CustomEvent cloudops:environment-changed  { environment: "DEV" | "QA" | "PROD" }
 window.__CLOUDOPS_ENVIRONMENT__
 ```
 
@@ -106,7 +106,7 @@ Contract: `packages/contracts/src/events.ts`.
 
 | Piece | Value |
 | --- | --- |
-| Event | `cloudops` (`CLOUDOPS_EVENT`) |
+| Event | `cloudops:environment-changed` (`CLOUDOPS_EVENT`) |
 | Payload | `{ environment: "DEV" \| "QA" \| "PROD" }` |
 | Snapshot key | `window.__CLOUDOPS_ENVIRONMENT__` (`CLOUDOPS_ENVIRONMENT_KEY`) |
 | Publish | `publishCloudOpsEnvironment` |
@@ -185,7 +185,7 @@ Three TypeScript projects, three Vite builds, federation plugin quirks (Vite 8 C
 
 ### Dependencia de contratos
 
-If `CLOUDOPS_EVENT` (`cloudops`) or the payload shape diverges, remotes silently miss updates (`isCloudOpsEventPayload` returns false). Environment lists must stay aligned with `ENVIRONMENTS`. The live contract is `packages/contracts/src/events.ts`.
+If `CLOUDOPS_EVENT` (`cloudops:environment-changed`) or the payload shape diverges, remotes silently miss updates (`isCloudOpsEventPayload` returns false). Environment lists must stay aligned with `ENVIRONMENTS`. The live contract is `packages/contracts/src/events.ts`.
 
 ### Posible duplicación de librerías
 

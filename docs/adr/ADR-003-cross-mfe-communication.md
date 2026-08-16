@@ -6,7 +6,7 @@ The environment selector lives in the shell header. Operations and FinOps must r
 
 Requirements from the implementation:
 
-- Event **`cloudops`** (`CLOUDOPS_EVENT`)
+- Event **`cloudops:environment-changed`** (`CLOUDOPS_EVENT`)
 - Payload `{ environment: "DEV" | "QA" | "PROD" }`
 - Initial value available if a remote mounts after the first publish (`window.__CLOUDOPS_ENVIRONMENT__`)
 - Listeners must be removable (no duplicate handlers when several Operations views mount)
@@ -15,12 +15,15 @@ Requirements from the implementation:
 
 Use a **same-window** contract in `@cloudops/contracts`:
 
-- `publishCloudOpsEnvironment(environment)` writes `window.__CLOUDOPS_ENVIRONMENT__` and dispatches `new CustomEvent("cloudops", { detail: { environment } })`.
+- Event: `cloudops:environment-changed`
+- Payload: `{ environment: "DEV" | "QA" | "PROD" }`
+- Shell publishes the event (`useShellStore.setEnvironment`; `App` publishes on mount).
+- Operations subscribes (`cloudOpsSync.ts`).
+- FinOps subscribes (`cloudOpsSync.ts`).
+- `publishCloudOpsEnvironment(environment)` writes `window.__CLOUDOPS_ENVIRONMENT__` and dispatches `new CustomEvent("cloudops:environment-changed", { detail: { environment } })`.
 - `subscribeCloudOpsEnvironment(listener)` adds `window.addEventListener` and returns a function that calls `removeEventListener`.
 - `getSharedEnvironment()` reads the snapshot, defaulting to `"PROD"`.
 - Payload validation: `isCloudOpsEventPayload`.
-
-Shell: `useShellStore.setEnvironment` publishes; `App` publishes on mount.
 
 Remotes: `cloudOpsSync.ts` ref-counts subscribers so Services + Incidents + Summary share **one** listener; cleanup runs when the count reaches zero. On bootstrap, remotes apply `getSharedEnvironment()` and load data.
 

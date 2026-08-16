@@ -25,8 +25,8 @@ afterEach(() => {
 });
 
 describe("FinOps CloudOps listener", () => {
-  it("uses the cloudops event name", () => {
-    expect(CLOUDOPS_EVENT).toBe("cloudops");
+  it("uses the cloudops:environment-changed event name", () => {
+    expect(CLOUDOPS_EVENT).toBe("cloudops:environment-changed");
   });
 
   it("bootstraps from the shared environment and reloads costs on DEV → PROD", async () => {
